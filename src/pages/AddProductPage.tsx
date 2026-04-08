@@ -12,12 +12,14 @@ import {
 } from "../types";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import { useProduct } from "../contexts/ProductContext";
 
 export default function AddProductPage() {
   const navigate = useNavigate();
   const [categories, setCategories] = useState<Category[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const { addNewProduct } = useProduct();
 
   const {
     register,
@@ -67,9 +69,7 @@ export default function AddProductPage() {
         images,
       });
 
-      window.dispatchEvent(
-        new CustomEvent<Product>("product-added", { detail: newProduct }),
-      );
+      addNewProduct(newProduct);
 
       toast.success("Product curated successfully!");
       reset();
@@ -315,7 +315,7 @@ export default function AddProductPage() {
                 </>
               ) : (
                 <>
-                  <span>Curate Item</span>
+                  <span>Create Item</span>
                   <span className="material-symbols-outlined text-lg">
                     arrow_forward
                   </span>

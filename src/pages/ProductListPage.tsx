@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { getProducts } from "../api/products";
 import type { Product } from "../types";
 import { useAuth } from "../contexts/AuthContext";
+import { useProduct } from "../contexts/ProductContext";
 import ProductCard from "../components/ProductCard";
 import Pagination from "../components/Pagination";
 const ITEMS_PER_PAGE = 12;
@@ -15,7 +16,7 @@ export default function ProductListPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [newProducts, setNewProducts] = useState<Product[]>([]);
+  const { newProducts } = useProduct();
 
   // New States for Sorting & Filtering
   const [sortByName, setSortByName] = useState(false);
@@ -39,19 +40,17 @@ export default function ProductListPage() {
     void fetchProducts();
   }, [currentPage]);
 
-  useEffect(() => {
-    const handler = (e: CustomEvent<Product>) => {
-      setNewProducts((prev) => [e.detail, ...prev]);
-    };
-    window.addEventListener("product-added", handler as EventListener);
-    return () =>
-      window.removeEventListener("product-added", handler as EventListener);
-  }, []);
+  // removed local state event listener as it's now handled by ProductContext
 
   // useMemo untuk cache all current Product nya
   const allProducts = useMemo(() => {
-    return currentPage === 1 ? [...newProducts, ...products] : products;
-  }, [newProducts, products, currentPage]);
+    // Selalu sertakan newProducts saat pencarian aktif agar produk baru bisa ditemukan
+    // Atau saat berada di halaman 1
+    if (searchQuery.trim() || currentPage === 1) {
+      return [...newProducts, ...products];
+    }
+    return products;
+  }, [newProducts, products, currentPage, searchQuery]);
 
   const filteredProducts = useMemo(() => {
     let result = allProducts;
@@ -84,6 +83,7 @@ export default function ProductListPage() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+    setCurrentPage(1); // RESET ke halaman 1 saat mencari
   };
 
   return (
