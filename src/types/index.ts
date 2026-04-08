@@ -59,7 +59,7 @@ export const createProductSchema = z.object({
           : "Harga harus berupa angka",
     })
     .min(1, { error: "Harga harus lebih dari 0" }),
-  description: z.string().default(""),
+  description: z.string().optional(),
   categoryId: z
     .number({
       error: (issue) =>
@@ -78,7 +78,7 @@ export type CreateProductFormData = z.infer<typeof createProductSchema>;
 export interface CreateProductPayload {
   title: string;
   price: number;
-  description: string;
+  description?: string;
   categoryId: number;
   images: string[];
 }
