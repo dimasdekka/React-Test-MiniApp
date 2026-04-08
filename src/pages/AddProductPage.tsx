@@ -107,7 +107,7 @@ export default function AddProductPage() {
 
         <div className="sticky top-32">
           <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tighter text-on-surface leading-none mb-6 font-headline">
-            Add New Items
+            Add New Item
           </h1>
           <p className="text-on-surface-variant font-body text-base lg:text-lg leading-relaxed opacity-80 mb-8">
             Add a new object to the StoreMini editorial collection. Ensure all
