@@ -116,7 +116,7 @@ export default function LoginPage() {
                     type="email"
                     id="email"
                     autoComplete="email"
-                    placeholder="curator@storemini.com"
+                    placeholder="akundemo@storemini.com"
                     className={`w-full bg-surface-container-high border-none ring-1 focus:ring-2 rounded-lg py-3.5 pl-12 pr-4 text-sm font-body transition-all placeholder:text-outline/60 outline-none ${
                       errors.email
                         ? "ring-error focus:ring-error"
@@ -215,7 +215,7 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-10 pt-8 border-t border-outline-variant/10 text-center space-y-3">
-              <p className="font-body text-[11px] text-outline">
+              <p className="font-body text-[13px] text-outline">
                 Akun demo: <span className="font-bold">john@mail.com</span> /{" "}
                 <span className="font-bold">changeme</span>
               </p>
